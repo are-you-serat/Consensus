@@ -1,0 +1,4 @@
+requests==2.32.3
+icmplib==3.0.4
+beautifulsoup4==4.12.3
+dnspython==2.6.1
