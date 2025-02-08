@@ -10,4 +10,6 @@ Currently the following functions are available:
 The program also provides the ability to parse and check bridges from a file that was not deleted after the last scan. This is done so that it is possible to find new servers in case the site from which the data is parsed is blocked.
 
 ## Installation
-To start, clone the repository using this link: https://github.com/are-you-serat/vodtool.git. Click on install.bat which will create a virtual environment and install dependencies. After that, just click on run.bat.
+1) To start, clone the repository.
+2) Click on install.bat which will create a virtual environment and install dependencies.
+3) After that, just click on run.bat.
