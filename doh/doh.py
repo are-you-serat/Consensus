@@ -16,7 +16,7 @@ def parse_DOH():
         links = soup.find_all('a', href=re.compile(r'dns-query$'))
         for link in links:
             full_url = link['href']
-            with open(r'DNS\dns_servers.txt', 'a') as file:
+            with open(r'doh\dns_servers.txt', 'a') as file:
                 file.write(full_url + '\n')
         print('Data received. Testing for DOH functionality begins')
     except Exception as e:
@@ -40,13 +40,13 @@ def run_dns():
     parse_DOH_question = int(input('Parse DOH servers or use local servers file (1 - Parse, 0 - Use local one): '))
     if parse_DOH_question == 1:
         try:
-            os.remove('DNS\dns_servers.txt')
+            os.remove('doh\dns_servers.txt')
         except FileNotFoundError:
             pass
         parse_DOH()
     time.sleep(15)
 
-    with open('DNS/dns_servers.txt', 'r', encoding='utf-8') as file:
+    with open('doh/dns_servers.txt', 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
     with ThreadPoolExecutor(max_workers=100) as executor:

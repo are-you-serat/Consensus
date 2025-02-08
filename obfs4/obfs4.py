@@ -10,18 +10,18 @@ file_lock = threading.Lock()
 
 def get_ips_file():
     responce = requests.get('https://github.com/scriptzteam/Tor-Bridges-Collector/raw/main/bridges-obfs4')
-    with open('Tor_bridges_parser_obfs4/bridges-obfs4.txt', 'w', encoding='utf-8') as file:
+    with open('obfs4/bridges-obfs4.txt', 'w', encoding='utf-8') as file:
         file.write(responce.text)
 
 def extract_ips():
-    with open('Tor_bridges_parser_obfs4/bridges-obfs4.txt', 'r', encoding='utf-8') as file:
+    with open('obfs4/bridges-obfs4.txt', 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
     for line in lines:
         match = re.search(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', line)
         if match:
             ip_address = match.group(1)
-            with open('Tor_bridges_parser_obfs4/ips.txt', 'a', encoding='utf-8') as file:
+            with open('obfs4/ips.txt', 'a', encoding='utf-8') as file:
                 file.write(ip_address + '\n')
 
 def check_valid_ip(ip):
@@ -29,14 +29,14 @@ def check_valid_ip(ip):
     if host.is_alive:
         print(ip.strip())
         with file_lock:
-            with open(r'Tor_bridges_parser_obfs4/valid.txt', 'a', encoding='utf-8') as file:
+            with open(r'obfs4/valid.txt', 'a', encoding='utf-8') as file:
                 file.write(ip.strip() + '\n')
 
 def extract_valid_from_brindes_obfs4_list():
-    with open(r'Tor_bridges_parser_obfs4/valid.txt', 'r') as ip_file:
+    with open(r'obfs4/valid.txt', 'r') as ip_file:
         ips = ip_file.readlines()
 
-    with open(r'Tor_bridges_parser_obfs4/bridges-obfs4.txt', 'r', encoding='utf-8') as file:
+    with open(r'obfs4/bridges-obfs4.txt', 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
     with open(r'output_nodes.txt', 'w', encoding='utf-8') as output_file:
@@ -48,8 +48,8 @@ def extract_valid_from_brindes_obfs4_list():
 def remove_useless_files():
     try:
         print('Removing useless files')
-        os.remove(r'Tor_bridges_parser_obfs4/ips.txt')
-        os.remove(r'Tor_bridges_parser_obfs4/valid.txt')
+        os.remove(r'obfs4/ips.txt')
+        os.remove(r'obfs4/valid.txt')
         print('Completed')
     except FileNotFoundError:
         print('No useless files were found, continue working')
@@ -65,7 +65,7 @@ def run_tor_obfs4():
     print('Data parsed and extracted')
     time.sleep(10)
 
-    with open('Tor_bridges_parser_obfs4/ips.txt', 'r', encoding='utf-8') as file:
+    with open('obfs4/ips.txt', 'r', encoding='utf-8') as file:
         lines = file.readlines()
     
     print('Checking...')

@@ -12,22 +12,22 @@ file_lock = Lock()
 def remove_useless_files():
     try:
         print('Removing useless files')
-        os.remove(r'Tor_bridges_parser_vanilla\ips.txt')
-        os.remove(r'Tor_bridges_parser_vanilla\valid.txt')
+        os.remove(r'vanilla\ips.txt')
+        os.remove(r'vanilla\valid.txt')
         print('Completed')
     except FileNotFoundError:
         print('No useless files were found, continue working')
 
 def parse_tor_bridges():
     response = requests.get('https://drew-phillips.com/tor-node-list.txt')
-    with open(r'Tor_bridges_parser_vanilla\tor-node-list.txt', 'w', encoding='utf-8') as file:
+    with open(r'vanilla\tor-node-list.txt', 'w', encoding='utf-8') as file:
         file.write(response.text)
 
 def extract_ip(bridges):
     print('Data received. Testing for bridge functionality begins. Extracting IP...')
     pattern = re.compile(r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b')
     matches = pattern.findall(bridges)
-    with open(r'Tor_bridges_parser_vanilla\ips.txt', 'w') as file:
+    with open(r'vanilla\ips.txt', 'w') as file:
         for match in matches:
             file.write(match + '\n')
 
@@ -36,17 +36,17 @@ def check_valid_ip(ip):
     if host.is_alive:
         print(ip.strip())
         with file_lock:
-            with open(r'Tor_bridges_parser_vanilla\valid.txt', 'a', encoding='utf-8') as file:
+            with open(r'vanilla\valid.txt', 'a', encoding='utf-8') as file:
                 file.write(ip.strip() + '\n')
 
 def extract_valid_from_tor_node_list():
-    with open(r'Tor_bridges_parser_vanilla\valid.txt', 'r') as ip_file:
+    with open(r'vanilla\valid.txt', 'r') as ip_file:
         ips = ip_file.readlines()
 
-    with open(r'Tor_bridges_parser_vanilla\tor-node-list.txt', 'r', encoding='utf-8') as file:
+    with open(r'vanilla\tor-node-list.txt', 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
-    with open(r'Tor_bridges_parser_vanilla\output_nodes.txt', 'w', encoding='utf-8') as output_file:
+    with open(r'vanilla\output_nodes.txt', 'w', encoding='utf-8') as output_file:
         for line in lines:
             for ip in ips:
                 if ip.strip() in line:
@@ -62,12 +62,12 @@ def run_tor_vanilla():
     remove_useless_files()
     if parse_tor_question == 1:
         parse_tor_bridges()
-    with open(r'Tor_bridges_parser_vanilla\tor-node-list.txt', 'r', encoding='utf-8') as file:
+    with open(r'vanilla\tor-node-list.txt', 'r', encoding='utf-8') as file:
         bridges = file.read()
     extract_ip(bridges)
     time.sleep(15)
 
-    with open(r'Tor_bridges_parser_vanilla\ips.txt', 'r') as file:
+    with open(r'vanilla\ips.txt', 'r') as file:
         lines = file.readlines()
 
     print('Checking...')

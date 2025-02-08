@@ -1,6 +1,6 @@
-from DNS.DNS import run_dns
-from Tor_bridges_parser_vanilla.TOR_vanilla import run_tor_vanilla
-from Tor_bridges_parser_obfs4.TOR_obfs4 import run_tor_obfs4
+from doh.doh import run_dns
+from vanilla.vanilla import run_tor_vanilla
+from obfs4.obfs4 import run_tor_obfs4
 
 if __name__ == '__main__':
     user_query = int(input('What do you want to parse and check?\n1) DOH servers\n2) TOR bridges (vanilla)\n3) TOR bridges (obfs4)\nChoose number: '))
