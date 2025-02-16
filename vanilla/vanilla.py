@@ -46,7 +46,7 @@ def extract_valid_from_tor_node_list():
     with open(r'vanilla\tor-node-list.txt', 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
-    with open(r'vanilla\output_nodes.txt', 'w', encoding='utf-8') as output_file:
+    with open(r'output_nodes.txt', 'w', encoding='utf-8') as output_file:
         for line in lines:
             for ip in ips:
                 if ip.strip() in line:
